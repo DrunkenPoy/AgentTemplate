@@ -88,6 +88,7 @@ The AI then asks about:
 - Whether to copy it for one project or manage several projects in one workspace.
 - Your project name, goal, and what a successful result should look like.
 - Which AI should coordinate, perform the work, and review it.
+- Which skills or MCP connections the work needs, what is already available, and which additions need account access.
 - When you want to approve progress and how many reviews you need.
 
 The AI saves your answers as you go. Complete any sign-in or folder-access steps it identifies; it cannot log in on your behalf without the required user interaction.
@@ -96,7 +97,9 @@ If you already know which template you want, you can copy only that template fol
 
 ### 5. Check readiness, then describe your first task
 
-The AI checks the configuration, tests the selected agent connections, and records what is ready or still missing. Missing tools or failed connections are reported rather than marked complete.
+The AI follows the selected template's integration guide to discover relevant skills/MCPs and perform supported installation and configuration within the agreed scope. It guides you through required login, consent, or restart steps and saves where to resume. You do not need to know tool names in advance.
+
+It checks selected agent connections and verifies each required integration in the AI/client that will use it. Missing required capabilities block readiness and non-probe agent calls; optional limitations are recorded. Scripts validate recorded evidence, while the setup AI performs the actual integration checks. Setup cannot install or connect tools that the current environment does not support.
 
 After setup, give it a concrete task, for example:
 
@@ -112,8 +115,8 @@ Inside the selected template folder:
 |---|---|
 | `workspace/` | Records for single-project mode. |
 | `projects/<project-id>/` | A separate record folder for each project in multi-project mode. |
-| `project.json` | Project settings, including your chosen language and AI assignments. |
-| `project.local.json` | Paths and tool settings for this PC; excluded from Git. |
+| `project.json` | Language, AI assignments, and portable skill/MCP requirements. |
+| `project.local.json` | PC paths, connection details and verification evidence; excluded from Git. Credentials stay in the client's credential store. |
 | `PROJECT.md`, `DECISIONS.md`, `BACKLOG.md` | Goals, your decisions, and progress. |
 | `handoffs/` and `reviews/` | What each agent did, checked, and passed to the next agent. |
 | `work/` and `outputs/` | Default working folder and final deliverables. Existing project folders can be used instead. |
@@ -148,10 +151,11 @@ The development AGENTS.md and CLAUDE.md files remain byte-for-byte copies of the
 
 Live calls, authentication, model availability, and app connections must be checked during setup in the user's environment. Mock verification does not establish live service compatibility.
 
-The latest automated verification ran on **Windows with PowerShell 7.6.5** and passed **103 mock checks**. It did not invoke live models or validate desktop app connections.
+The latest automated verification ran on **Windows with PowerShell 7.6.5** and passed **123 mock checks**, including skill/MCP readiness and per-consumer evidence checks. It did not invoke live models, install skills, connect live MCP services, or validate desktop app connections.
 
 ~~~powershell
 pwsh -NoProfile -File ./tests/Verify-Templates.ps1
 # Use the fixture path printed by the first command.
 pwsh -NoProfile -File ./tests/Verify-Edges.ps1 -Fixture "printed fixture path"
+pwsh -NoProfile -File ./tests/Verify-Integrations.ps1 -Fixture "printed fixture path"
 ~~~

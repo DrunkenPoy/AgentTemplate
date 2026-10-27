@@ -20,9 +20,12 @@ Save the answer as project.json's language, record it in DECISIONS.md, and conti
 | Environment | New/existing working folder, CLI/app, file and Windows command access | project.local.json; setup-state.json |
 | Assigned AI | Claude Code/Codex coordinator; worker model; reviewer models, order, and count | coordinator; worker; reviewers |
 | Ollama | Whether to use it; assigned responsibilities and selected model | ollamaRole; relevant provider/model |
+| Skills and MCP | Required capabilities, existing connections, essential/optional additions, consumers, access and installation scope; follow [INTEGRATIONS.md](INTEGRATIONS.md) | integrations; local evidence in project.local.json |
 | User checkpoints | When to obtain confirmation and what can proceed automatically | approvals.checkpoints/scope/confirmed |
 | Deliverables and checks | Specialization questions, output formats, actual verification | PROJECT.md; engine/deliverableFormats |
 | Version control | Development repository, PR base/host, and shared records; general-work Git/files choice | versionControl; PROJECT.md |
+
+Complete the capability assessment even when no additional integration is needed: set integrations.reviewed to true and items to an empty array, recording the reason. Reuse previously authorized setup scope; resolve any missing access decision before installation. Store only portable requirements in shared settings.
 
 Use unused for ollamaRole when Ollama is not selected. Do not install or invoke unselected providers. Each reviewer must specify a provider and an available model. Roles may share a provider, but implementation and review run in independent sessions.
 

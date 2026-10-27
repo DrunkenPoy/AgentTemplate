@@ -17,6 +17,10 @@ project.json holds agreed settings; PROJECT.md holds goals and verification meth
 
 Before a new task or conversation, read relevant decisions and the latest handoff. Interview the user about conflicting decisions. Do not carry the source game's model names, private paths, or feature rules into unrelated projects.
 
+## Skills and MCP requirements
+
+Follow [INTEGRATIONS.md](guides/INTEGRATIONS.md) during setup and whenever a task needs new capabilities. Prefer existing tools, perform supported setup within the authorized scope, and verify access in each consumer that needs it. Store portable selections in project.json and actual environment details/evidence in project.local.json. Keep shared handoffs redacted. A different AI or PC must check its own access; do not assume connections are inherited. Required integrations must be verified before dependent work; provider probes may run during setup.
+
 ## Plan the task
 
 1. Add the request to BACKLOG. Copy forms/TASK.md to tasks/<task-id>.md.

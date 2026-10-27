@@ -58,7 +58,11 @@ Follow the [interview guide](guides/INTERVIEW.md) in order. Ask only one to thre
 
 Set setupInterviewComplete to true only after the initial interview is complete. This does not establish that tools are connected.
 
-## 5. Configure tools and verify connections
+## 5. Discover and configure skills and MCP
+
+Follow [INTEGRATIONS.md](guides/INTEGRATIONS.md). Infer needed capabilities from the interview, inspect existing skills/plugins/MCP connections, and select only relevant additions. Record requirements in project.json and per-consumer check evidence in project.local.json. Perform supported installation/configuration within the authorized scope; guide the user through login, consent, or restart when required. Reuse existing settings and preserve a resumable next step when blocked.
+
+## 6. Configure AI providers and verify connections
 
 Follow the [tool guide](guides/TOOLS.md). Check only the selected tools and models; supporting an adapter does not require installing or calling every provider.
 
@@ -66,7 +70,7 @@ Follow the [tool guide](guides/TOOLS.md). Check only the selected tools and mode
 pwsh -NoProfile -File ./scripts/Test-Setup.ps1 -Project ./workspace
 ~~~
 
-For multi-project mode, use -Project ./projects/example. Distinguish unanswered questions from installation and path problems. A passing configuration check does not verify authentication, live model access, or app execution.
+For multi-project mode, use -Project ./projects/example. Distinguish unanswered questions from installation and path problems. A passing configuration check does not verify authentication, live model access, app execution, or independently validate recorded skill/MCP evidence. Provider probes can run while required integration checks are pending; finish those checks before non-probe calls or marking setup ready.
 
 Perform a minimal connection check for each selected worker and reviewer within the project's agreed tool-use scope:
 
@@ -79,11 +83,11 @@ Check every reviewer by index. If a call fails or a usage limit is reached, expl
 
 When Claude Code coordinates a Claude role, prefer its available native subagent tool. Pass the selected model, project language, and equivalent probe instructions, then record the result. If that tool is unavailable, check the CLI route without bypassing nested-session restrictions.
 
-## 6. Save the setup handoff and plan the first task
+## 7. Save the setup handoff and plan the first task
 
 1. Copy forms/SETUP-HANDOFF.md to the project's handoffs/00-setup.md and fill it with observed results in the selected language.
 2. Complete PROJECT.md with the language, purpose, acceptance criteria, scope, and verification methods.
-3. Set setup-state.json's stage to ready only after file persistence and the assigned agent calls have been checked. Otherwise use waiting-user or waiting-tools and record the reason and resumption steps.
+3. Set setup-state.json's stage to ready only after file persistence, the assigned agent calls, and every required skill/MCP integration for each assigned consumer have been checked. Otherwise use waiting-user or waiting-tools and record the reason and resumption steps.
 4. Present the first requested task's plan and agree its small/large classification with the user. Follow the project's approval checkpoints.
 5. Follow [WORKFLOW.md](WORKFLOW.md) for implementation, review, and revision. Setup alone does not authorize starting an unrequested task.
 

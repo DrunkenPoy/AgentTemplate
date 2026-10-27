@@ -17,4 +17,6 @@ On 2026-10-27, the language update passed 103 mock checks (89 main checks and 14
 
 Live model responses/authentication/limits, native Claude subagent calls, desktop connections, and actual office deliverables are outside this mock verification. Check real connections during START.md setup; distinguish executable discovery from a successful model call, and mark unperformed checks unverified. Language forwarding tests do not prove a model will obey the requested language in every response.
 
-With the full repository, run tests/Verify-Templates.ps1, then tests/Verify-Edges.ps1 using the printed fixture path. A standalone copied template can still execute START.md's setup checks.
+The skills/MCP setup update passed 123 mock checks: 89 main, 14 edge, and 20 integration checks. The additional checks cover missing requirement interviews, optional vs required dependencies, per-consumer evidence, pending consent, blocked work, available provider probes, and re-verification on a new PC. No skill was installed and no live MCP service was called by these tests; recorded evidence is not an independent live connection test.
+
+With the full repository, run tests/Verify-Templates.ps1, then tests/Verify-Edges.ps1 and tests/Verify-Integrations.ps1 using the printed fixture path. A standalone copied template can still execute START.md's setup checks.

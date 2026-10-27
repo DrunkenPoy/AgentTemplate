@@ -15,6 +15,9 @@ param(
 Assert-Id $TaskId
 $context = Get-ProjectContext $Project
 $issues = @(Get-ConfigurationIssues $context)
+if ($issues.Count -eq 0 -and $Phase -ne 'probe') {
+    $issues += @(Get-IntegrationIssues $context -CheckConnections)
+}
 if ($issues.Count) { throw ($issues -join "`n") }
 if ($Role -eq 'reviewer' -and $Phase -notin @('review', 'probe')) { throw 'Reviewers can only review or probe.' }
 if ($Role -eq 'worker' -and $Phase -eq 'review') { throw 'Select a reviewer role for independent review.' }

@@ -72,6 +72,7 @@ $config.approvals = @{ confirmed = $true; checkpoints = @('plan'); scope = 'Test
 $config.deliverableFormats = @('docx')
 $config.versionControl.mode = 'files'
 $config.setupInterviewComplete = $true
+$config.integrations.reviewed = $true
 Save $configPath $config
 $localPath = Join-Path $testProject 'project.local.json'
 $local = Json $localPath

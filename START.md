@@ -11,7 +11,7 @@ The AI reading this file must perform these steps:
    - [General work](general-work/START.md): planning, reports, and research, Windows CLI or Codex/Claude desktop.
 3. Confirm whether to copy the selected template to a new location or use it in place. Do not overwrite an existing user folder. Copy the entire template folder, including LICENSE and hidden configuration files.
 4. Read and execute the selected folder's START.md, carrying forward the language answer without asking again. That folder is the template root; resolve its relative paths and commands there. Persist the language as project.json's language field when initializing the project.
-5. Complete environment discovery, the topic-by-topic interview, configuration, connection checks, and setup handoff. A setup request alone does not authorize starting an unrelated development or business task.
+5. Complete environment discovery, the topic-by-topic interview, skill/MCP needs assessment and supported setup, configuration, per-consumer connection checks, and setup handoff. Follow the selected template's guides/INTEGRATIONS.md; perform authorized setup and guide the user through any required login or consent. A setup request alone does not authorize starting an unrelated development or business task.
 
 When resuming an existing project, read its saved language and records first. If several existing projects make the target unclear, resolve the target before changing any setting. Reuse the saved language unless the user asks to change it. For an older project without a language field, ask the language question first and add only that decision; preserve all other answers and files.
 

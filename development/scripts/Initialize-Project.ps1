@@ -18,6 +18,7 @@ function Initialize-LocalSettings {
     if (Test-Path -LiteralPath $localPath) { return }
     Save-Json $localPath @{
         workDirectory = 'work'
+        integrations = @{}
         providers = @{
             codex = @{ command = 'codex'; prefixArguments = @() }
             claude = @{ command = 'claude'; prefixArguments = @() }
@@ -55,6 +56,7 @@ $config = [ordered]@{
     approvals = @{ confirmed = $false; checkpoints = @(); scope = '' }
     versionControl = @{ mode = $(if ($template.kind -eq 'general-work') { $null } else { 'git-pr' }); baseBranch = '' }
     setupInterviewComplete = $false
+    integrations = @{ reviewed = $false; items = @() }
 }
 Save-Json $projectFile $config
 Initialize-LocalSettings

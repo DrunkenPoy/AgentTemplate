@@ -23,6 +23,13 @@ Link DECISIONS.md and project.json, including the language decision.
 | Git/PR or file versioning | | | |
 | Deliverable creation/verification tools | | | |
 
+## Integration setup
+
+| Capability ID | Required/optional | Consumer/client | Status and redacted verification evidence | Next action |
+|---|---|---|---|---|
+
+Record any login, consent, restart, optional limitation, or change that requires rechecking. Keep personal paths, account details, private endpoints, and raw check output in local settings. Never record credentials in either shared or local workflow files.
+
 ## Remaining setup and required user actions
 
 ## Next agent

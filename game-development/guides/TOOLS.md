@@ -22,6 +22,10 @@ The shared language field belongs in project.json, not project.local.json, so an
 
 command is an executable name or .exe path, not a shell command containing arguments. For an npm .cmd shim, use a native distribution or node.exe with the actual CLI JavaScript entry file in prefixArguments. Inspect the installed shim to identify that entry; do not guess.
 
+## Skills and MCP
+
+Follow [INTEGRATIONS.md](INTEGRATIONS.md) for discovery, supported installation, account connection, per-consumer verification, and resume. These steps are performed by the setup AI through the current client's tools; the helper scripts validate recorded requirements/evidence and do not act as universal installers. Provider invocation checks below are separate from skill/MCP checks.
+
 ## Connecting providers
 
 | Tool | Initial checks | Invocation |

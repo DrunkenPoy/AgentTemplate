@@ -4,6 +4,7 @@ param([Parameter(Mandatory)][string]$Project)
 . "$PSScriptRoot/Common.ps1"
 $context = Get-ProjectContext $Project
 $issues = @(Get-ConfigurationIssues $context)
+if ($issues.Count -eq 0) { $issues += @(Get-IntegrationIssues $context -CheckConnections) }
 $template = Read-Json (Join-Path $TemplateRoot 'template.json')
 foreach ($entry in $template.preservedFiles.GetEnumerator()) {
     $path = Join-Path $TemplateRoot $entry.Key
@@ -40,6 +41,7 @@ $report = @{
     configurationValid = ($issues.Count -eq 0)
     issues = $issues; tools = $tools
     liveCalls = 'unverified'; applicationAccess = 'unverified'
+    integrationChecks = 'Recorded evidence only; the coordinator must perform current skill/MCP checks in each assigned consumer.'
     note = 'Executable discovery does not verify login, model availability, write permissions, or app-to-Windows execution.'
 }
 Save-Json (Join-Path $context.Directory 'setup-check.local.json') $report
