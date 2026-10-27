@@ -16,7 +16,7 @@ Open this folder in your AI tool and say: **"Read START.md and guide me through 
 
 | Requirement | What you need |
 |---|---|
-| Operating system | A Windows PC. These templates and helper scripts target Windows; macOS/Linux support is not included. |
+| Operating system | Windows or macOS. The helper scripts run on PowerShell 7 on both. Linux is not tested. |
 | AI entry point | Claude Code or Codex CLI for development. General work can also start in Codex or Claude desktop. A CLI is an AI tool you run in a terminal. |
 | Folder access | Give the AI access to the entire local template folder, including permission to write project records. Pasting START.md into a chat alone does not provide that access. |
 | PowerShell | PowerShell **7 or later**, available as pwsh, to run the helper scripts. Windows PowerShell 5.1, launched as powershell.exe, is not sufficient. |
@@ -27,7 +27,7 @@ Open this folder in your AI tool and say: **"Read START.md and guide me through 
 
 | Needed only when selected | Additional requirements |
 |---|---|
-| Codex automation | Codex CLI installed, signed in, and accessible from the Windows execution environment. |
+| Codex automation | Codex CLI installed, signed in, and accessible from the local command environment. |
 | Claude automation | Claude Code installed and signed in; an available native subagent tool or the supplied CLI adapter handles delegated Claude roles. |
 | Gemini automation | A compatible Antigravity agy CLI, signed in with access to the chosen model. The adapter does not target other Gemini CLIs. |
 | Ollama | A running Ollama service and the selected model already downloaded. |
@@ -35,7 +35,7 @@ Open this folder in your AI tool and say: **"Read START.md and guide me through 
 | Building software or games | The project's compiler, SDK, engine, dependencies, and test tools, identified during setup. No game engine is bundled. |
 | Office deliverables | Tools capable of creating and checking the chosen Word, PowerPoint, Excel, or PDF files. Setup identifies the available tools; a specific office suite is not required by the template. |
 
-For installation and connection details, see the selected template's tool guide: [software](development/guides/TOOLS.md), [games](game-development/guides/TOOLS.md), or [general work](general-work/guides/TOOLS.md). If PowerShell is missing, use [Microsoft's installation guide](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows).
+For installation and connection details, see the selected template's tool guide: [software](development/guides/TOOLS.md), [games](game-development/guides/TOOLS.md), or [general work](general-work/guides/TOOLS.md). If PowerShell is missing, use Microsoft's installation guide for [Windows](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows) or [macOS](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-macos). On macOS with Homebrew: `brew install powershell/tap/powershell`.
 
 ## Start in five steps
 
@@ -66,9 +66,16 @@ Set-Location "C:\Work\AgentTemplate"
 codex
 ~~~
 
+On macOS, if the repository is at `~/Work/AgentTemplate`:
+
+~~~bash
+cd ~/Work/AgentTemplate
+codex
+~~~
+
 Replace the path with your actual folder. To use Claude Code, run claude instead of codex. These commands assume the chosen CLI is already installed.
 
-An app may be able to read local files without being able to run Windows commands. In that case, it can conduct the interview and save a handoff, but full external-agent automation must continue in a capable CLI environment. See the [app guide](general-work/guides/APPS.md).
+An app may be able to read local files without being able to run local commands. In that case, it can conduct the interview and save a handoff, but full external-agent automation must continue in a capable CLI environment. See the [app guide](general-work/guides/APPS.md).
 
 ### 3. Send this message to the AI
 
@@ -161,7 +168,7 @@ Reusable prompts, guides, and blank forms remain in English. Generated document 
 - Development completion through commit, push, and PR creation; merging remains with the user.
 - Office-file creation and verification guidance for Word, PowerPoint, Excel, and PDF.
 
-The coordinator follows WORKFLOW.md to conduct interviews, advance stages, and assess results. Scripts initialize records, validate configuration, and invoke assigned agents. START.md does not grant file or command access that an app lacks. If an app cannot execute Windows CLIs, the workflow preserves its records and hands off to a CLI environment.
+The coordinator follows WORKFLOW.md to conduct interviews, advance stages, and assess results. Scripts initialize records, validate configuration, and invoke assigned agents. START.md does not grant file or command access that an app lacks. If an app cannot execute local CLIs, the workflow preserves its records and hands off to a CLI environment.
 
 The development AGENTS.md and CLAUDE.md files remain byte-for-byte copies of the original AgentWS files. Additional rules live in separate documents.
 
@@ -169,7 +176,7 @@ The development AGENTS.md and CLAUDE.md files remain byte-for-byte copies of the
 
 Live calls, authentication, model availability, and app connections must be checked during setup in the user's environment. Mock verification does not establish live service compatibility.
 
-The latest automated verification ran on **Windows with PowerShell 7.6.5** and passed **123 mock checks**, including skill/MCP readiness and per-consumer evidence checks. It did not invoke live models, install skills, connect live MCP services, or validate desktop app connections.
+The latest automated verification ran on **Windows with PowerShell 7.6.5** and passed **123 mock checks**, including skill/MCP readiness and per-consumer evidence checks. It did not invoke live models, install skills, connect live MCP services, or validate desktop app connections. macOS support has not yet been verified by running the tests on a Mac.
 
 ~~~powershell
 pwsh -NoProfile -File ./tests/Verify-Templates.ps1

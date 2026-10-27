@@ -6,9 +6,9 @@ The AI reading this file must perform these steps:
 
 1. For a new setup, make **language selection the first interview question**, before choosing a template or discussing the project: "Which language would you like to use for our conversation and project documents?" Ask in the language of the user's opening message when clear; otherwise use English. An explicit answer already given in this conversation counts; do not ask again. Continue the interview in the selected language.
 2. If the user already specified a template or project, use that selection. Otherwise briefly explain these options in the selected language and ask the user to choose:
-   - [Software development](development/START.md): general software development, Windows CLI.
-   - [Game development](game-development/START.md): engine-independent game development, Windows CLI.
-   - [General work](general-work/START.md): planning, reports, and research, Windows CLI or Codex/Claude desktop.
+   - [Software development](development/START.md): general software development, Windows or macOS CLI.
+   - [Game development](game-development/START.md): engine-independent game development, Windows or macOS CLI.
+   - [General work](general-work/START.md): planning, reports, and research, Windows or macOS CLI or Codex/Claude desktop.
 3. Confirm whether to copy the selected template to a new location or use it in place. Do not overwrite an existing user folder. Copy the entire template folder, including LICENSE and hidden configuration files.
 4. Read and execute the selected folder's START.md, carrying forward the language answer without asking again. That folder is the template root; resolve its relative paths and commands there. Persist the language as project.json's language field when initializing the project.
 5. Complete environment discovery, the topic-by-topic interview, skill/MCP needs assessment and supported setup, configuration, per-consumer connection checks, and setup handoff. Follow the selected template's guides/INTEGRATIONS.md; perform authorized setup and guide the user through any required login or consent. A setup request alone does not authorize starting an unrelated development or business task.

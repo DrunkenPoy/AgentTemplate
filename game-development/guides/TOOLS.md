@@ -1,8 +1,8 @@
-# Windows tool connections
+# Tool connections (Windows and macOS)
 
 ## PowerShell and local settings
 
-Run helper scripts with PowerShell 7 or later using pwsh, not Windows PowerShell 5.1's powershell.exe. If unavailable, follow [Microsoft's installation guide](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows). Do not bypass execution policy or organizational controls.
+Run helper scripts with PowerShell 7 or later using pwsh, not Windows PowerShell 5.1's powershell.exe. If unavailable, follow Microsoft's installation guide for [Windows](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows) or [macOS](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-macos) (for example, `brew install powershell/tap/powershell`). Do not bypass execution policy or organizational controls.
 
 Initialization creates project.local.json, excluded from Git. Its workDirectory is relative to that JSON's folder or an actual absolute path. Recreate machine-specific settings on another PC. Keep tool paths and credentials out of shared project.json.
 
@@ -20,7 +20,7 @@ The shared language field belongs in project.json, not project.local.json, so an
 }
 ~~~
 
-command is an executable name or .exe path, not a shell command containing arguments. For an npm .cmd shim, use a native distribution or node.exe with the actual CLI JavaScript entry file in prefixArguments. Inspect the installed shim to identify that entry; do not guess.
+command is an executable name or .exe path, not a shell command containing arguments. For an npm .cmd shim, use a native distribution or node.exe with the actual CLI JavaScript entry file in prefixArguments. Inspect the installed shim to identify that entry; do not guess. On macOS, the executable name or full path found on PATH (for example /opt/homebrew/bin/codex) works as is, including npm-installed CLIs; keep prefixArguments empty.
 
 ## Skills and MCP
 

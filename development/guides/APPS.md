@@ -4,16 +4,16 @@ The two development templates run through CLI. Open Codex or Claude Code in the 
 
 ## Codex desktop
 
-Open the general-work folder as a local project and ask the AI to read START.md. Verify file access and Windows command execution separately. Recheck machine-specific paths when using another PC or a remote execution environment.
+Open the general-work folder as a local project and ask the AI to read START.md. Verify file access and local command execution separately. Recheck machine-specific paths when using another PC or a remote execution environment.
 
 ## Claude desktop
 
 Connect the general-work template folder in a mode that can work with local files, then ask the AI to read START.md. Attaching only START.md to a regular chat is not the same as granting access to the working folder.
 
-The app's code execution environment may be separate from the Windows host. Successful file access does not prove that installed Windows CLIs are available. If Windows execution tools are present, use the same scripts. Otherwise continue the interview and document work, then save a handoff for CLI resumption containing:
+The app's code execution environment may be separate from your computer (Windows or macOS). Successful file access does not prove that locally installed CLIs are available. If local command execution is available, use the same scripts. Otherwise continue the interview and document work, then save a handoff for CLI resumption containing:
 
 - Project record location, selected language, and saved answers.
-- Completed stages and unperformed Windows connection checks.
+- Completed stages and unperformed local connection checks.
 - The exact next command.
 - Instructions to read the same START.md in a capable Claude Code or Codex CLI environment.
 

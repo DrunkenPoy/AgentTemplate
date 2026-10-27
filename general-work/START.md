@@ -23,7 +23,7 @@ For an existing project, read project.json and reuse its language. If the field 
 1. Read template.json beside this file to identify the template kind.
 2. Look for workspace/project.json and projects/*/project.json. If the target is clear, use it. If multiple existing projects make it unclear, ask which project to resume before editing anything.
 3. For an existing project, read PROJECT.md, DECISIONS.md, BACKLOG.md, setup-state.json, and the latest handoff. Do not reset them.
-4. Check file reading, file writing, Windows command execution, and agent invocation separately using the tools actually available. Do not assume an app's shell is the Windows host shell.
+4. Check file reading, file writing, local command execution (Windows or macOS), and agent invocation separately using the tools actually available. Do not assume an app's shell is the host computer's shell.
 5. If commands are available, check for PowerShell 7's pwsh. If missing, use the official installation reference in the [tool guide](guides/TOOLS.md). Keep machine-specific paths out of shared files.
 
 If files are inaccessible, explain how to connect the folder. In an attachment-only environment, provide interview answers and a resumable handoff without claiming that files were created or checked. For general-work desktop use, follow the [app guide](guides/APPS.md).

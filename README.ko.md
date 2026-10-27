@@ -2,7 +2,7 @@
 
 [English](README.md) | [한국어](README.ko.md)
 
-AI의 인터뷰에 답하면서 프로젝트의 작업 방식을 설정하는 Windows용 템플릿입니다. 설정 파일을 직접 편집하거나 전체 워크플로우를 미리 익힐 필요가 없습니다.
+AI의 인터뷰에 답하면서 프로젝트의 작업 방식을 설정하는 Windows·macOS용 템플릿입니다. 설정 파일을 직접 편집하거나 전체 워크플로우를 미리 익힐 필요가 없습니다.
 
 AI에서 이 폴더를 열고 **“START.md를 읽고 초기 설정을 진행해 주세요.”**라고 요청하세요. AI가 먼저 사용할 언어를 묻고, 템플릿 선택·AI 역할 배정·필요한 도구 점검을 안내합니다.
 
@@ -16,7 +16,7 @@ AI에서 이 폴더를 열고 **“START.md를 읽고 초기 설정을 진행해
 
 | 항목 | 준비할 내용 |
 |---|---|
-| 운영체제 | Windows PC. 템플릿과 보조 스크립트는 Windows를 대상으로 하며, macOS/Linux 지원은 포함하지 않습니다. |
+| 운영체제 | Windows 또는 macOS. 보조 스크립트는 두 OS 모두 PowerShell 7에서 실행됩니다. Linux는 테스트하지 않았습니다. |
 | 시작할 AI 도구 | 개발용은 Claude Code 또는 Codex CLI를 사용합니다. 일반업무는 Codex 또는 Claude 데스크톱에서도 시작할 수 있습니다. CLI는 터미널에서 실행하는 AI 도구를 뜻합니다. |
 | 폴더 접근 | AI가 로컬 템플릿 폴더 전체를 읽고 프로젝트 기록을 저장할 수 있어야 합니다. 채팅에 START.md 내용만 붙여 넣는 것으로는 폴더 접근 권한이 생기지 않습니다. |
 | PowerShell | 보조 스크립트 실행에는 `pwsh` 명령으로 사용하는 **PowerShell 7 이상**이 필요합니다. `powershell.exe`로 실행하는 Windows PowerShell 5.1은 사용할 수 없습니다. |
@@ -27,7 +27,7 @@ AI에서 이 폴더를 열고 **“START.md를 읽고 초기 설정을 진행해
 
 | 선택한 경우에만 필요한 항목 | 추가 준비 사항 |
 |---|---|
-| Codex 자동 호출 | Codex CLI를 설치하고 로그인합니다. Windows 실행 환경에서 해당 명령에 접근할 수 있어야 합니다. |
+| Codex 자동 호출 | Codex CLI를 설치하고 로그인합니다. 로컬 명령 실행 환경에서 해당 명령에 접근할 수 있어야 합니다. |
 | Claude 자동 호출 | Claude Code를 설치하고 로그인합니다. 제공되는 네이티브 서브에이전트 도구 또는 템플릿의 CLI 어댑터로 Claude 담당자를 호출합니다. |
 | Gemini 자동 호출 | 호환되는 Antigravity `agy` CLI와 로그인, 선택 모델의 사용 권한이 필요합니다. 다른 Gemini CLI를 대상으로 만든 어댑터는 아닙니다. |
 | Ollama | Ollama 서비스가 실행 중이어야 하며, 사용할 모델을 미리 다운로드해야 합니다. |
@@ -35,7 +35,7 @@ AI에서 이 폴더를 열고 **“START.md를 읽고 초기 설정을 진행해
 | 소프트웨어·게임 빌드 | 프로젝트에 필요한 컴파일러·SDK·엔진·의존성·테스트 도구를 설정 과정에서 확인합니다. 게임 엔진은 포함되어 있지 않습니다. |
 | 업무용 결과물 | 선택한 Word·PowerPoint·Excel·PDF 파일을 만들고 확인할 도구가 필요합니다. 사용 가능한 도구를 설정 과정에서 확인하며, 특정 오피스 제품을 필수로 요구하지는 않습니다. |
 
-자세한 설치·연결 방법은 선택한 템플릿의 도구 안내를 참고하세요: [범용개발](development/guides/TOOLS.md), [게임개발](game-development/guides/TOOLS.md), [일반업무](general-work/guides/TOOLS.md). PowerShell이 없다면 [Microsoft 설치 안내](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows)를 따르세요.
+자세한 설치·연결 방법은 선택한 템플릿의 도구 안내를 참고하세요: [범용개발](development/guides/TOOLS.md), [게임개발](game-development/guides/TOOLS.md), [일반업무](general-work/guides/TOOLS.md). PowerShell이 없다면 Microsoft 설치 안내([Windows](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows), [macOS](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-macos))를 따르세요. macOS에서 Homebrew를 쓴다면 `brew install powershell/tap/powershell`로 설치할 수 있습니다.
 
 ## 다섯 단계로 시작하기
 
@@ -66,9 +66,16 @@ Set-Location "C:\Work\AgentTemplate"
 codex
 ~~~
 
+macOS에서 저장소를 `~/Work/AgentTemplate`에 두었다면 다음과 같습니다.
+
+~~~bash
+cd ~/Work/AgentTemplate
+codex
+~~~
+
 경로는 실제 폴더 위치로 바꾸세요. Claude Code를 사용하려면 `codex` 대신 `claude`를 실행합니다. 이 명령은 선택한 CLI가 이미 설치되어 있다는 전제입니다.
 
-앱에서 로컬 파일을 읽을 수 있어도 Windows 명령은 실행하지 못할 수 있습니다. 이 경우 인터뷰와 인수인계 기록을 진행한 뒤, 외부 AI 호출 자동화는 실행 가능한 CLI 환경에서 이어갑니다. 자세한 내용은 [앱 안내](general-work/guides/APPS.md)를 참고하세요.
+앱에서 로컬 파일을 읽을 수 있어도 로컬 명령은 실행하지 못할 수 있습니다. 이 경우 인터뷰와 인수인계 기록을 진행한 뒤, 외부 AI 호출 자동화는 실행 가능한 CLI 환경에서 이어갑니다. 자세한 내용은 [앱 안내](general-work/guides/APPS.md)를 참고하세요.
 
 ### 3. AI에게 시작 문장 보내기
 
@@ -161,7 +168,7 @@ pwsh -NoProfile -File ./scripts/Set-ActiveTemplate.ps1 -Restore development
 - 개발용 커밋·push·PR 생성 절차. 병합은 사용자 담당
 - Word·PowerPoint·Excel·PDF 제작 및 검증 안내
 
-총괄 AI는 WORKFLOW.md에 따라 인터뷰·단계 진행·결과 판정을 수행합니다. 보조 스크립트는 기록 초기화·설정 검사·담당 AI 호출을 처리합니다. START.md가 앱에 없는 파일·명령 실행 권한을 새로 부여하지는 않습니다. 앱에서 Windows CLI를 실행할 수 없으면 기록을 보존해 CLI 환경으로 인계합니다.
+총괄 AI는 WORKFLOW.md에 따라 인터뷰·단계 진행·결과 판정을 수행합니다. 보조 스크립트는 기록 초기화·설정 검사·담당 AI 호출을 처리합니다. START.md가 앱에 없는 파일·명령 실행 권한을 새로 부여하지는 않습니다. 앱에서 로컬 CLI를 실행할 수 없으면 기록을 보존해 CLI 환경으로 인계합니다.
 
 개발용 AGENTS.md와 CLAUDE.md는 원본 AgentWS 파일과 바이트 단위로 동일하게 보존되어 있습니다. 추가 규칙은 별도 문서에서 관리합니다.
 
@@ -169,7 +176,7 @@ pwsh -NoProfile -File ./scripts/Set-ActiveTemplate.ps1 -Restore development
 
 실제 AI 호출·로그인·모델 접근·앱 연결은 사용자 환경의 초기 설정에서 확인해야 합니다. 모의 검증 통과가 실제 서비스 연결을 보장하지는 않습니다.
 
-최근 자동 검증은 **Windows·PowerShell 7.6.5**에서 수행했으며, 스킬·MCP 준비 상태와 역할별 확인 결과 검사를 포함한 **모의 검사 123개를 통과**했습니다. 실제 모델 호출·스킬 설치·MCP 서비스 연결·데스크톱 앱 연결은 검증하지 않았습니다.
+최근 자동 검증은 **Windows·PowerShell 7.6.5**에서 수행했으며, 스킬·MCP 준비 상태와 역할별 확인 결과 검사를 포함한 **모의 검사 123개를 통과**했습니다. 실제 모델 호출·스킬 설치·MCP 서비스 연결·데스크톱 앱 연결은 검증하지 않았습니다. macOS 지원은 아직 Mac에서 테스트를 실행해 검증하지 않았습니다.
 
 ~~~powershell
 pwsh -NoProfile -File ./tests/Verify-Templates.ps1

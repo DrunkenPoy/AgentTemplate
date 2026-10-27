@@ -104,7 +104,8 @@ function Get-IntegrationIssues($Context, [switch]$CheckConnections) {
 function Get-NativeCommand($Provider) {
     $command = Get-Command -Name $Provider.command -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
     if (-not $command) { throw "Executable not found: $($Provider.command)" }
-    if ([IO.Path]::GetExtension($command.Source) -ne '.exe') {
+    # Windows can only start .exe files without a shell; macOS/Linux run any executable file (including shebang scripts) directly.
+    if ($IsWindows -and [IO.Path]::GetExtension($command.Source) -ne '.exe') {
         throw 'Use a native .exe, or node.exe with the CLI entry file in prefixArguments. Do not pass a shell command string.'
     }
     $command.Source
