@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "kind": "game-development",
+  "title": "Game development",
+  "entry": "START.md",
+  "preservedFiles": {
+    "AGENTS.md": "C0DA8201AD0083B519E2862C5A34D4C5F7BFD9B00E5B33FF2FEB61564DA84113",
+    "CLAUDE.md": "694A2D721E41C385F3DB492838C23299826DF5BA9809E3B0721AAC70021E196A"
+  }
+}
