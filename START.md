@@ -12,6 +12,13 @@ The AI reading this file must perform these steps:
 3. Confirm whether to copy the selected template to a new location or use it in place. Do not overwrite an existing user folder. Copy the entire template folder, including LICENSE and hidden configuration files.
 4. Read and execute the selected folder's START.md, carrying forward the language answer without asking again. That folder is the template root; resolve its relative paths and commands there. Persist the language as project.json's language field when initializing the project.
 5. Complete environment discovery, the topic-by-topic interview, skill/MCP needs assessment and supported setup, configuration, per-consumer connection checks, and setup handoff. Follow the selected template's guides/INTEGRATIONS.md; perform authorized setup and guide the user through any required login or consent. A setup request alone does not authorize starting an unrelated development or business task.
+6. After the setup handoff is saved, if the selected template is used in place in this repository and the other template folders still exist, offer to set them aside so later sessions do not read them. Explain the choices in the selected language and act only on the user's explicit answer:
+   - Archive (recommended): `pwsh -NoProfile -File ./scripts/Set-ActiveTemplate.ps1 -Keep <selected-folder>` zips each unused template folder and tests/ into _archive/ and removes the folders. Restore later with `-Restore <folder>`.
+   - Delete: add `-Mode Delete`. Irreversible apart from Git history; the script refuses if a folder contains project records.
+   - Keep everything: change nothing.
+   Skip this step when the template was copied to a separate location. Never archive or delete the selected template.
+
+When only one template folder remains in the repository root, it is the active template: use it without asking step 2 again. Do not open files in _archive/; if the user wants a different template, restore it first with `./scripts/Set-ActiveTemplate.ps1 -Restore <folder>`.
 
 When resuming an existing project, read its saved language and records first. If several existing projects make the target unclear, resolve the target before changing any setting. Reuse the saved language unless the user asks to change it. For an older project without a language field, ask the language question first and add only that decision; preserve all other answers and files.
 

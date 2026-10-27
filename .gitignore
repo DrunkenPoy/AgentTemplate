@@ -1,6 +1,7 @@
 /.verification/
 /.export/
 /docs/
+/_archive/
 # Keep account-specific client configuration and secrets local.
 **/.mcp.json
 **/.claude.json

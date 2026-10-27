@@ -107,6 +107,24 @@ After setup, give it a concrete task, for example:
 
 The AI proposes the plan, agrees the task size with you, and follows the saved review and approval rules. For development tasks, completion goes through a PR; merging remains your action.
 
+## Set aside unused templates
+
+After setup, if you used the template in place, the AI offers to set the other two template folders aside so later sessions only see the one you chose. You can also ask for this at any time.
+
+| Choice | Result |
+|---|---|
+| Archive (recommended) | Unused template folders and `tests/` are zipped into `_archive/` and removed from the working tree. The AI does not read them. |
+| Delete | The folders are removed. This is refused if a folder contains project records. |
+| Keep | Nothing changes. |
+
+~~~powershell
+pwsh -NoProfile -File ./scripts/Set-ActiveTemplate.ps1 -Keep general-work
+# Restore an archived folder later:
+pwsh -NoProfile -File ./scripts/Set-ActiveTemplate.ps1 -Restore development
+~~~
+
+Add `-WhatIf` to preview. The links to removed folders in this README stop working until they are restored. `_archive/` is excluded from Git.
+
 ## Where your settings and work go
 
 Inside the selected template folder:
