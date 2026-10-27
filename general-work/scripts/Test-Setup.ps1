@@ -42,7 +42,7 @@ $report = @{
     issues = $issues; tools = $tools
     liveCalls = 'unverified'; applicationAccess = 'unverified'
     integrationChecks = 'Recorded evidence only; the coordinator must perform current skill/MCP checks in each assigned consumer.'
-    note = 'Executable discovery does not verify login, model availability, write permissions, or app-to-Windows execution.'
+    note = 'Executable discovery does not verify login, model availability, write permissions, or app-to-host execution.'
 }
 Save-Json (Join-Path $context.Directory 'setup-check.local.json') $report
 $report | ConvertTo-Json -Depth 8

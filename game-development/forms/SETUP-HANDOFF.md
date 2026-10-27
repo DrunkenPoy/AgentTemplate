@@ -17,7 +17,7 @@ Link DECISIONS.md and project.json, including the language decision.
 | Item | Method | Result/evidence | Reason if unverified |
 |---|---|---|---|
 | File read/write | | | |
-| Windows command execution | | | |
+| Local command execution (Windows or macOS) | | | |
 | Worker invocation | | | |
 | Each reviewer invocation | | | |
 | Git/PR or file versioning | | | |

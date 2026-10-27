@@ -110,8 +110,8 @@ try {
                 if ($readOnly) { $arguments += @('--tools', 'Read,Glob,Grep') }
             }
             'gemini' {
-                # Pass arguments without shell expansion. Split input that exceeds Windows limits.
-                if ($instructions.Length -gt 24000) { throw 'Gemini input is too long for Windows arguments. Split the task or reduce explicit input files.' }
+                # Pass arguments without shell expansion. Split input that exceeds command-line limits (Windows is the tightest).
+                if ($instructions.Length -gt 24000) { throw 'Gemini input is too long for command-line arguments. Split the task or reduce explicit input files.' }
                 $mode = if ($readOnly) { 'plan' } else { 'accept-edits' }
                 $arguments += @('--print', $instructions, '--model', $assignment.model, '--mode', $mode, '--sandbox', '--output-format', 'text')
                 $stdinText = ''

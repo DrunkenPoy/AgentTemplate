@@ -1,6 +1,6 @@
 # Verification scope
 
-The initial release was checked on 2026-10-26 using Windows and PowerShell 7.6.5.
+The initial release was checked on 2026-10-26 using Windows and PowerShell 7.6.5. macOS support was added afterwards and has not yet been verified by running the tests on a Mac.
 
 - Initialization, configuration-preserving resume, invalid-ID rejection, and multi-project separation.
 - Incomplete-interview rejection and selected configuration/executable checks.

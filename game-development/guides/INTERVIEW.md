@@ -17,7 +17,7 @@ Save the answer as project.json's language, record it in DECISIONS.md, and conti
 | Language (first) | Language for conversation and project documents | language; DECISIONS.md |
 | Workspace | One project or several; project name and purpose | Initialization arguments; name/purpose |
 | Goals | Audience/users, scope and exclusions, acceptance criteria | PROJECT.md; completionCriteria |
-| Environment | New/existing working folder, CLI/app, file and Windows command access | project.local.json; setup-state.json |
+| Environment | New/existing working folder, CLI/app, file and local command access (Windows or macOS) | project.local.json; setup-state.json |
 | Assigned AI | Claude Code/Codex coordinator; worker model; reviewer models, order, and count | coordinator; worker; reviewers |
 | Ollama | Whether to use it; assigned responsibilities and selected model | ollamaRole; relevant provider/model |
 | Skills and MCP | Required capabilities, existing connections, essential/optional additions, consumers, access and installation scope; follow [INTEGRATIONS.md](INTEGRATIONS.md) | integrations; local evidence in project.local.json |
