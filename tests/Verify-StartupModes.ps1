@@ -47,7 +47,7 @@ try {
         $config.integrations = @{ reviewed = $true; items = @() }
         $config.setupInterviewComplete = $true
         $config.startup.rolesReviewed = $true
-        $config.startup.roleResearch = @('PROJECT.md: this fixture needs an independent specialist check')
+        $config.startup.roleResearch = @('PROJECT.md: this fixture needs an independent specialist check', 'web: https://example.com/roles - fixture finding')
         $config.startup.assignments = @(
             @{ id = 'specialist-worker'; duty = 'WORKER_DUTY_SENTINEL'; reason = 'A separate scoped implementation task is needed'; route = 'worker'; approved = $false },
             @{ id = 'specialist-review'; duty = 'REVIEW_DUTY_SENTINEL'; reason = 'Independent specialty evidence is needed'; route = 'reviewer-2'; approved = $false }
@@ -67,6 +67,10 @@ try {
         $evidence = $config.startup.roleResearch
         $config.startup.roleResearch = @(' ')
         Check (@(Get-StartupIssues $context).Count -gt 0) "$kind requires research evidence"
+        $config.startup.roleResearch = @('local: PROJECT.md only')
+        Check ((@(Get-StartupIssues $context) -join "`n") -match 'Web-search') "$kind requires web-search evidence or a recorded search limit"
+        $config.startup.roleResearch = @('search-unavailable: fixture has no search tool')
+        Check (@(Get-StartupIssues $context).Count -eq 0) "$kind accepts a recorded search limit"
         $config.startup.roleResearch = $evidence
         $config.startup.mode = 'standard'
         Save-Json $configPath $config

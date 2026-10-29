@@ -73,7 +73,7 @@ $config.deliverableFormats = @('docx')
 $config.versionControl.mode = 'files'
 $config.setupInterviewComplete = $true
 $config.startup.rolesReviewed = $true
-$config.startup.roleResearch = @('Fixture workflow inspected; base worker/reviewer cover this test.')
+$config.startup.roleResearch = @('Fixture workflow inspected; base worker/reviewer cover this test.', 'web: https://example.com/roles - fixture finding')
 $config.integrations.reviewed = $true
 Save $configPath $config
 $localPath = Join-Path $testProject 'project.local.json'

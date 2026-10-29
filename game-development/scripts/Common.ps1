@@ -81,6 +81,8 @@ function Get-StartupIssues($Context) {
         $startup['roleResearch'] -isnot [array] -or $startup.roleResearch.Count -eq 0 -or
         @($startup.roleResearch | Where-Object { [string]::IsNullOrWhiteSpace($_) }).Count -gt 0) {
         'Research workflow roles and record the findings before assigning agents.'
+    } elseif (-not @($startup.roleResearch | Where-Object { $_ -match '^web: https?://\S+' -or $_ -match '^search-unavailable: \S' })) {
+        'Web-search the needed roles and record "web: <URL> - finding", or "search-unavailable: <reason>" if search cannot run. Follow guides/START-MODES.md.'
     }
     if ($startup['assignments'] -isnot [array]) { 'Record startup role assignments as an array.'; return }
     $ids = @()

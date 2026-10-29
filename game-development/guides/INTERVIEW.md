@@ -22,7 +22,7 @@ Save the answer as project.json's language, record it in DECISIONS.md, and conti
 | Goals | Audience/users, scope and exclusions, acceptance criteria | PROJECT.md; completionCriteria |
 | Environment | New/existing working folder, CLI/app, file and local command access (Windows or macOS) | project.local.json; setup-state.json |
 | Assigned AI | Claude Code/Codex coordinator; worker model; reviewer models, order, and count | coordinator; worker; reviewers |
-| Workflow roles | Search for needed responsibilities and record evidence; approve additional assignments in Standard start or apply them automatically in Quick start | startup.rolesReviewed/roleResearch/assignments; DECISIONS.md |
+| Workflow roles | Web-search (mandatory; `web: <URL> - finding` or `search-unavailable: <reason>`) for needed responsibilities and record evidence; approve additional assignments in Standard start or apply them automatically in Quick start | startup.rolesReviewed/roleResearch/assignments; DECISIONS.md |
 | Ollama | Whether to use it; assigned responsibilities and selected model | ollamaRole; relevant provider/model |
 | Skills and MCP | Required capabilities, existing connections, essential/optional additions, consumers, access and installation scope; follow [INTEGRATIONS.md](INTEGRATIONS.md) | integrations; local evidence in project.local.json |
 | User checkpoints | When to obtain confirmation and what can proceed automatically | approvals.checkpoints/scope/confirmed |

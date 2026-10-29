@@ -41,7 +41,7 @@ Save defaults and provisional criteria separately from explicit user decisions i
 
 ## Research and assign workflow roles in both modes
 
-1. Search the workflow, SPECIALIZATION.md, project instructions, goals, source structure, and available skill/agent descriptions for responsibilities the work actually needs. When local evidence is insufficient, search relevant authoritative external documentation and record links and findings. If search is unavailable, record that limit; do not claim external research was done. No project materials should be placed in public search queries.
+1. Search the workflow, SPECIALIZATION.md, project instructions, goals, source structure, and available skill/agent descriptions for responsibilities the work actually needs, then **always run a web search** for authoritative external documentation on the roles this kind of project typically needs; this step is mandatory and must not be skipped even when local evidence seems sufficient. Prefix each roleResearch entry with `local: ` (project files) or `web: <URL> - <finding>` (external); at least one `web:` entry is required. Only when the search tool is genuinely unavailable or fails, record `search-unavailable: <reason>` instead; never claim external research that was not done. No project materials should be placed in public search queries.
 2. Identify gaps in the coordinator/worker/reviewer coverage. Examples might be accessibility review for a UI, gameplay testing for a game, or source verification for a research report. These are examples, not a mandatory roster. Add only roles with a concrete responsibility, scope, and expected output; an empty additions list is valid when the base team covers the work.
 3. Record the search evidence and rationale, then present the proposed role, responsibility, execution route, provider/model, and expected additional calls. In Standard start, ask whether to add the proposed roles and record acceptance or rejection. In Quick start, announce and apply the justified roles without an extra approval question, after the risk notice. Do not silently switch selected models or add a new external provider.
 4. Store the completed assessment in `startup.rolesReviewed`, source paths/URLs plus findings in `startup.roleResearch`, and active role assignments in `startup.assignments`. Keep rejected/deferred proposals in DECISIONS.md, outside the active assignments list. Record `approved: true` only for explicit role approval; automatic Quick start assignments use `approved: false` and the saved mode decision as their authorization.
@@ -56,7 +56,7 @@ Example of an automatic assignment in a Quick start project (replace the role an
   "mode": "quick",
   "riskNotice": "The actual notice displayed to the user",
   "rolesReviewed": true,
-  "roleResearch": ["PROJECT.md: UI acceptance criteria require keyboard navigation checks"],
+  "roleResearch": ["local: PROJECT.md UI acceptance criteria require keyboard navigation checks", "web: https://www.w3.org/WAI/WCAG22/quickref/ - keyboard operability needs an independent check"],
   "assignments": [
     {"id": "accessibility-review", "duty": "Check keyboard navigation against the agreed UI criteria", "reason": "Independent UI verification is needed", "route": "reviewer-2", "approved": false}
   ]
