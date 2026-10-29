@@ -72,6 +72,8 @@ $config.approvals = @{ confirmed = $true; checkpoints = @('plan'); scope = 'Test
 $config.deliverableFormats = @('docx')
 $config.versionControl.mode = 'files'
 $config.setupInterviewComplete = $true
+$config.startup.rolesReviewed = $true
+$config.startup.roleResearch = @('Fixture workflow inspected; base worker/reviewer cover this test.')
 $config.integrations.reviewed = $true
 Save $configPath $config
 $localPath = Join-Path $testProject 'project.local.json'

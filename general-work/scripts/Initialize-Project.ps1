@@ -4,7 +4,8 @@ param(
     [Parameter(Mandatory)][string]$Id,
     [Parameter(Mandatory)][ValidateSet('single', 'multi')][string]$Mode,
     [Parameter(Mandatory)][string]$Name,
-    [string]$Language = ''
+    [string]$Language = '',
+    [ValidateSet('standard', 'quick')][string]$StartMode = 'standard'
 )
 . "$PSScriptRoot/Common.ps1"
 Assert-Id $Id
@@ -50,6 +51,7 @@ foreach ($folder in @('work', 'tasks', 'handoffs', 'reviews', 'outputs', 'archiv
 $config = [ordered]@{
     schemaVersion = 1; id = $Id; name = $Name; mode = $Mode; kind = $template.kind
     language = $Language.Trim()
+    startup = @{ mode = $StartMode; riskNotice = ''; rolesReviewed = $false; roleResearch = @(); assignments = @() }
     purpose = ''; completionCriteria = @(); coordinator = $null
     worker = @{ provider = $null; model = $null }
     reviewers = @(); ollamaRole = ''; engine = ''; deliverableFormats = @()

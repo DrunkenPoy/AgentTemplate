@@ -36,7 +36,7 @@ The development AGENTS.md and CLAUDE.md files remain byte-for-byte copies of the
 1. Download and extract this repository as a ZIP, or clone it with Git.
 2. Launch Codex CLI or Claude Code in the folder containing the root `START.md`. General work can also start in Codex/Claude desktop with local folder access.
 3. Say **"Run START.md."** in the AI conversation.
-4. Answer questions about your language, project goals, AI assignments, and review/approval rules. Existing settings are reused.
+4. Choose your language and Standard start or Quick start. Quick start displays its risks first, uses setup defaults, and automatically assigns needed specialist agents after role research. Standard start keeps the detailed interview and asks approval for additional agents. Existing settings are reused.
 5. After tool connections and readiness checks are complete, request your first task.
 
 On Windows, if the repository is at `C:\Work\AgentTemplate`:
@@ -59,6 +59,12 @@ Send the starting message in the **AI conversation**, not the terminal shell. Th
 
 <details>
 <summary>Setup questions and tool connections</summary>
+
+### Startup modes
+
+The entry request remains **Run START.md**. **Standard start** keeps the existing interview. **Quick start** (빠른시작) defaults to an in-place single-project setup, inspects available facts, and defers detailed questions until the relevant task. Language, missing project purpose, unresolved base AI choices, approval scope, and indispensable engine/format choices still need answers. A short summary shows applied settings and deferred questions.
+
+Both modes search the workflow and project evidence for needed specialist responsibilities. Standard start asks before adding agents; Quick start automatically assigns justified additions in **all three templates**, using selected providers/models. Before Quick start applies settings or assignments, the AI warns about mistaken assumptions, rework, additional agent usage/cost/time, and task-material sharing with assigned providers. Existing permission limits and verification checks remain in force. See [startup modes](development/guides/START-MODES.md); the same guide is included in every standalone template.
 
 ### Setup questions
 
@@ -208,7 +214,7 @@ Add `-WhatIf` to preview. The links to removed folders in this README stop worki
 
 Live calls, authentication, model availability, and app connections must be checked during setup in the user's environment. Mock verification does not establish live service compatibility.
 
-The latest automated verification ran on **Windows with PowerShell 7.6.5** and passed **123 mock checks**, including skill/MCP readiness and per-consumer evidence checks. It did not invoke live models, install skills, connect live MCP services, or validate desktop app connections. Separately, a user reported successful macOS execution with Codex CLI and an Ollama local model, as described above. This does not establish that the full automated suite has passed on macOS.
+The latest automated verification ran on **Windows with PowerShell 7.6.5** and passed **189 mock checks**: 89 base, 14 edge, 20 integration, and 66 startup-mode checks. These cover recorded risk disclosure, researched automatic assignments across all three templates, standard-mode role approvals, specialist routing and read-only review, legacy/resume behavior, and required integration checks. They do not prove that a notice was actually shown or that role research was adequate. Tests did not invoke live models, install skills, connect live MCP services, or validate desktop app connections. Separately, a user reported successful macOS execution with Codex CLI and an Ollama local model, as described above. This does not establish that the full automated suite has passed on macOS.
 
 <details>
 <summary>Automated verification commands</summary>
@@ -218,6 +224,7 @@ pwsh -NoProfile -File ./tests/Verify-Templates.ps1
 # Use the fixture path printed by the first command.
 pwsh -NoProfile -File ./tests/Verify-Edges.ps1 -Fixture "printed fixture path"
 pwsh -NoProfile -File ./tests/Verify-Integrations.ps1 -Fixture "printed fixture path"
+pwsh -NoProfile -File ./tests/Verify-StartupModes.ps1
 ~~~
 
 </details>

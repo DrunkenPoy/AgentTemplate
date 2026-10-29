@@ -5,6 +5,7 @@ param(
     [Parameter(Mandatory)][string]$TaskId,
     [ValidateSet('worker', 'reviewer')][string]$Role = 'worker',
     [ValidateRange(1, 100)][int]$Reviewer = 1,
+    [string]$AgentRole,
     [ValidateSet('plan', 'work', 'review', 'probe')][string]$Phase = 'work',
     [ValidateRange(0, 3)][int]$Revision = 0,
     [string]$PromptFile,
@@ -19,11 +20,30 @@ if ($issues.Count -eq 0 -and $Phase -ne 'probe') {
     $issues += @(Get-IntegrationIssues $context -CheckConnections)
 }
 if ($issues.Count) { throw ($issues -join "`n") }
+$specialist = $null
+if ($AgentRole) {
+    Assert-Id $AgentRole
+    $startup = $context.Config['startup']
+    if ($startup -isnot [Collections.IDictionary]) { throw 'No workflow roles are configured.' }
+    $specialist = $startup.assignments | Where-Object { $_.id -eq $AgentRole } | Select-Object -First 1
+    if (-not $specialist) { throw "Workflow role is not configured: $AgentRole" }
+    $selectedRole = if ($specialist.route -eq 'worker') { 'worker' } else { 'reviewer' }
+    $selectedReviewer = if ($selectedRole -eq 'reviewer') { [int]($specialist.route -replace '^reviewer-', '') } else { 1 }
+    if (($PSBoundParameters.ContainsKey('Role') -and $Role -ne $selectedRole) -or
+        ($PSBoundParameters.ContainsKey('Reviewer') -and $Reviewer -ne $selectedReviewer)) {
+        throw 'Role or Reviewer conflicts with the configured AgentRole route.'
+    }
+    $Role = $selectedRole
+    $Reviewer = $selectedReviewer
+} elseif ($Role -eq 'reviewer' -and $context.Config.ContainsKey('startup')) {
+    $specialist = $context.Config.startup.assignments | Where-Object { $_.route -eq "reviewer-$Reviewer" } | Select-Object -First 1
+}
 if ($Role -eq 'reviewer' -and $Phase -notin @('review', 'probe')) { throw 'Reviewers can only review or probe.' }
 if ($Role -eq 'worker' -and $Phase -eq 'review') { throw 'Select a reviewer role for independent review.' }
 if ($Role -eq 'reviewer' -and $Reviewer -gt $context.Config.reviewers.Count) { throw 'Reviewer index is not configured.' }
 $assignment = if ($Role -eq 'worker') { $context.Config.worker } else { $context.Config.reviewers[$Reviewer - 1] }
 $readOnly = $Phase -ne 'work'
+$specialistInstructions = if ($specialist) { "Workflow role: $($specialist.id)`nResponsibility: $($specialist.duty)`nAssignment rationale: $($specialist.reason)" } else { '' }
 $body = if ($Phase -eq 'probe') {
     'Connection check only. Do not use tools or change files. Reply with WORKFLOW_STATUS: DONE and the word READY.'
 } else {
@@ -44,6 +64,7 @@ if ($Phase -ne 'probe') {
 }
 $instructions = @"
 You are the assigned $Role for task $TaskId, phase $Phase, revision $Revision.
+$specialistInstructions
 This is a delegated task, not initial setup. Do not launch other agents or change workflow settings.
 Work directory: $($context.WorkDirectory)
 Read-only task: $readOnly. Do not run Git write commands or edit AGENTS.md / CLAUDE.md.
@@ -72,6 +93,7 @@ New-Item -ItemType Directory -Path $runDirectory | Out-Null
 $resultPath = Join-Path $runDirectory 'result.json'
 $result = [ordered]@{
     taskId = $TaskId; role = $Role; reviewer = $Reviewer; phase = $Phase; revision = $Revision
+    agentRole = $(if ($specialist) { $specialist.id } else { $null })
     provider = $assignment.provider; model = $assignment.model; language = $context.Config.language
     status = 'running'; startedAt = [DateTimeOffset]::Now.ToString('o'); finishedAt = $null
     exitCode = $null; reason = ''; output = (Join-Path $runDirectory 'response.md')

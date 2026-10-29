@@ -48,6 +48,7 @@ function Get-ConfigurationIssues($Context) {
         'Interview required: approval checkpoints and authorized scope.'
     }
     if (-not $config.setupInterviewComplete) { 'Setup interview is incomplete.' }
+    Get-StartupIssues $Context
     Get-IntegrationIssues $Context
     if (@($config.reviewers).Count -eq 0) { 'Select at least one reviewer.' }
     foreach ($role in @($config.worker) + @($config.reviewers)) {
@@ -63,6 +64,48 @@ function Get-ConfigurationIssues($Context) {
     if ($kind -eq 'game-development' -and [string]::IsNullOrWhiteSpace($config.engine)) { 'Select the game engine.' }
     if ($kind -eq 'general-work' -and @($config.deliverableFormats).Count -eq 0) { 'Select office deliverable formats.' }
     if (-not (Test-Path -LiteralPath $Context.WorkDirectory -PathType Container)) { 'Work directory does not exist.' }
+}
+
+function Get-StartupIssues($Context) {
+    # Existing projects without mode records retain the standard workflow.
+    if (-not $Context.Config.ContainsKey('startup')) { return }
+    $startup = $Context.Config['startup']
+    if ($startup -isnot [Collections.IDictionary] -or $startup['mode'] -notin @('standard', 'quick')) {
+        'Select startup mode: standard or quick.'
+        return
+    }
+    if ($startup.mode -eq 'quick' -and [string]::IsNullOrWhiteSpace($startup['riskNotice'])) {
+        'Quick start requires a recorded prior risk notice. Follow guides/START-MODES.md.'
+    }
+    if ($startup['rolesReviewed'] -isnot [bool] -or $startup['rolesReviewed'] -ne $true -or
+        $startup['roleResearch'] -isnot [array] -or $startup.roleResearch.Count -eq 0 -or
+        @($startup.roleResearch | Where-Object { [string]::IsNullOrWhiteSpace($_) }).Count -gt 0) {
+        'Research workflow roles and record the findings before assigning agents.'
+    }
+    if ($startup['assignments'] -isnot [array]) { 'Record startup role assignments as an array.'; return }
+    $ids = @()
+    $reviewerRoutes = @()
+    foreach ($role in $startup.assignments) {
+        if ($role -isnot [Collections.IDictionary]) { 'Invalid workflow role assignment.'; continue }
+        try { Assert-Id $role['id'] } catch { 'Invalid workflow role ID.'; continue }
+        if ($role.id -in $ids) { 'Duplicate workflow role ID.' }
+        $ids += $role.id
+        if ([string]::IsNullOrWhiteSpace($role['duty']) -or [string]::IsNullOrWhiteSpace($role['reason'])) {
+            "Workflow role needs a duty and research rationale: $($role.id)"
+        }
+        $route = [string]$role['route']
+        if ($route -ne 'worker') {
+            if ($route -notmatch '^reviewer-(100|[1-9][0-9]?)$' -or
+                [int]$Matches[1] -gt @($Context.Config.reviewers).Count) {
+                "Workflow role has no configured execution route: $($role.id)"
+            }
+            if ($route -in $reviewerRoutes) { 'Each specialist reviewer needs a separate reviewer entry.' }
+            $reviewerRoutes += $route
+        }
+        if ($role['approved'] -isnot [bool] -or ($startup.mode -eq 'standard' -and $role.approved -ne $true)) {
+            "Standard start requires approval before adding workflow role: $($role.id)"
+        }
+    }
 }
 
 function Get-IntegrationIssues($Context, [switch]$CheckConnections) {
