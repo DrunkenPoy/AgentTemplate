@@ -1,10 +1,12 @@
 # START.md
 
+**START.md is a workflow template that assigns AI coordination, execution, and review roles and manages project setup, tasks, reviews, and handoffs.**
+
 [English](README.md) | [한국어](README.ko.md)
 
-Set up an AI-assisted project by answering a guided interview. You do not need to edit configuration files by hand or learn the whole workflow first.
+Use it for software development, game development, and general work on Windows or macOS. It supports cloud AI and Ollama-based local LLMs, and saves your project settings through a guided interview.
 
-Open this folder in your AI tool and say: **"Read START.md and guide me through setup."** The AI asks for your language first, then helps you choose a template, assign AI roles, and check the required tools.
+[Quick start](#quick-start) · [Requirements](#requirements) · [Local LLMs](#use-a-local-llm) · [Project setup](#project-setup) · [Resume](#resume-your-work) · [Records and folders](#records-and-folders) · [Verification](#verification)
 
 | Folder | Purpose | Entry environment |
 |---|---|---|
@@ -12,54 +14,32 @@ Open this folder in your AI tool and say: **"Read START.md and guide me through 
 | [game-development](game-development/START.md) | Engine-independent game development | Claude Code or Codex CLI |
 | [general-work](general-work/START.md) | Planning, reports, research, and office deliverables | CLI or Codex/Claude desktop |
 
-## Before you start: environment requirements
+<details>
+<summary>Included features and how it works</summary>
 
-| Requirement | What you need |
-|---|---|
-| Operating system | Windows or macOS. The helper scripts run on PowerShell 7 on both. Linux is not tested. |
-| AI entry point | Claude Code or Codex CLI for development. General work can also start in Codex or Claude desktop. A CLI is an AI tool you run in a terminal. |
-| Folder access | Give the AI access to the entire local template folder, including permission to write project records. Pasting START.md into a chat alone does not provide that access. |
-| PowerShell | PowerShell **7 or later**, available as pwsh, to run the helper scripts. Windows PowerShell 5.1, launched as powershell.exe, is not sufficient. |
-| Accounts and models | Sign in to each cloud AI service you select and confirm access to the chosen model. The template does not include accounts, subscriptions, or model access. |
-| Network | Internet access for cloud AI calls, sign-in, and any required downloads. Ollama calls need access to the configured Ollama service. |
+- Initial interviews, interrupted setup recovery, and handoffs between AI sessions.
+- Shared project settings separated from machine-specific paths.
+- Task, decision, handoff, and review forms.
+- Adapters for Codex CLI, Claude Code role agents, Antigravity agy, and Ollama.
+- Call logs, failure states, timeouts, and duplicate-task locking.
+- Development completion through commit, push, and PR creation; merging remains with the user.
+- Office-file creation and verification guidance for Word, PowerPoint, Excel, and PDF.
 
-**You do not need to install every AI tool.** Start with your chosen AI. During setup, it checks the tools needed for your selected roles and explains what is missing.
+The coordinator follows WORKFLOW.md to conduct interviews, advance stages, and assess results. Scripts initialize records, validate configuration, and invoke assigned agents. START.md does not grant file or command access that an app lacks. If an app cannot execute local CLIs, the workflow preserves its records and hands off to a CLI environment.
 
-| Needed only when selected | Additional requirements |
-|---|---|
-| Codex automation | Codex CLI installed, signed in, and accessible from the local command environment. |
-| Claude automation | Claude Code installed and signed in; an available native subagent tool or the supplied CLI adapter handles delegated Claude roles. |
-| Gemini automation | A compatible Antigravity agy CLI, signed in with access to the chosen model. The adapter does not target other Gemini CLIs. |
-| Ollama | A running Ollama service and the selected model already downloaded. |
-| Development or Git-based records | Git and repository access. Development also requires a way to create PRs, such as authenticated GitHub CLI for GitHub. |
-| Building software or games | The project's compiler, SDK, engine, dependencies, and test tools, identified during setup. No game engine is bundled. |
-| Office deliverables | Tools capable of creating and checking the chosen Word, PowerPoint, Excel, or PDF files. Setup identifies the available tools; a specific office suite is not required by the template. |
+The development AGENTS.md and CLAUDE.md files remain byte-for-byte copies of the original AgentWS files. Additional rules live in separate documents.
 
-For installation and connection details, see the selected template's tool guide: [software](development/guides/TOOLS.md), [games](game-development/guides/TOOLS.md), or [general work](general-work/guides/TOOLS.md). If PowerShell is missing, use Microsoft's installation guide for [Windows](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows) or [macOS](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-macos). On macOS with Homebrew: `brew install powershell/tap/powershell`.
+</details>
 
-## Start in five steps
+## Quick start
 
-### 1. Get the files onto your PC
+1. Download and extract this repository as a ZIP, or clone it with Git.
+2. Launch Codex CLI or Claude Code in the folder containing the root `START.md`. General work can also start in Codex/Claude desktop with local folder access.
+3. Say **"Run START.md."** in the AI conversation.
+4. Answer questions about your language, project goals, AI assignments, and review/approval rules. Existing settings are reused.
+5. After tool connections and readiness checks are complete, request your first task.
 
-Download a ZIP from this repository's GitHub page and extract it, or clone the repository with Git. Replace the placeholder below with its current URL:
-
-~~~powershell
-git clone "YOUR_REPOSITORY_URL"
-~~~
-
-Use the extracted or cloned folder containing this README and the root START.md. If you already have the files locally, use that folder and skip the download.
-
-### 2. Open the folder in your AI tool
-
-Choose one route:
-
-| Your starting point | What to do |
-|---|---|
-| Codex or Claude Code CLI | Open a terminal in the repository folder, then launch codex or claude. |
-| Codex desktop, for general work | Open the repository folder as a local project and start a chat that can access its files. |
-| Claude desktop, for general work | Connect the repository folder in a local-file-capable mode and start a chat with folder access. |
-
-For example, if you placed the repository at `C:\Work\AgentTemplate`:
+On Windows, if the repository is at `C:\Work\AgentTemplate`:
 
 ~~~powershell
 Set-Location "C:\Work\AgentTemplate"
@@ -73,23 +53,18 @@ cd ~/Work/AgentTemplate
 codex
 ~~~
 
-Replace the path with your actual folder. To use Claude Code, run claude instead of codex. These commands assume the chosen CLI is already installed.
+Replace the path with your actual location. The chosen CLI must be installed; run `claude` instead of `codex` for Claude Code. For local models, see [Use a local LLM](#use-a-local-llm).
 
-An app may be able to read local files without being able to run local commands. In that case, it can conduct the interview and save a handoff, but full external-agent automation must continue in a capable CLI environment. See the [app guide](general-work/guides/APPS.md).
+Send the starting message in the **AI conversation**, not the terminal shell. The AI runs helper scripts through its available tools. If a desktop app cannot run local commands, save the interview and handoff and continue in a CLI. See the [app guide](general-work/guides/APPS.md).
 
-### 3. Send this message to the AI
+<details>
+<summary>Setup questions and tool connections</summary>
 
-Paste this into the **AI conversation**, not directly into the terminal shell:
+### Setup questions
 
-> Read START.md and guide me through setup. Ask questions one topic at a time. If settings already exist, read them and resume without resetting them.
+For new settings, the first question is which language to use for conversation and project documents. Existing settings reuse the saved language. You can choose any language the assigned AI supports. The templates stay in English, but subsequent questions, reports, and deliverables use your selected language.
 
-You do not need to run the helper scripts yourself. The AI follows START.md and runs them when its tools allow it.
-
-### 4. Answer the setup questions
-
-The first question is which language to use for conversation and project documents. You can choose any language the assigned AI supports. The templates stay in English, but subsequent questions, reports, and deliverables use your selected language.
-
-The AI then asks about:
+The AI then asks about the topics below, reusing saved settings where available.
 
 - Which template fits your work: software, games, or general work.
 - Whether to copy it for one project or manage several projects in one workspace.
@@ -102,7 +77,7 @@ The AI saves your answers as you go. Complete any sign-in or folder-access steps
 
 If you already know which template you want, you can copy only that template folder and start there instead. Keep its LICENSE and hidden files. Each template works independently of the other two.
 
-### 5. Check readiness, then describe your first task
+### Connection checks and your first task
 
 The AI follows the selected template's integration guide to discover relevant skills/MCPs and perform supported installation and configuration within the agreed scope. It guides you through required login, consent, or restart steps and saves where to resume. You do not need to know tool names in advance.
 
@@ -114,7 +89,102 @@ After setup, give it a concrete task, for example:
 
 The AI proposes the plan, agrees the task size with you, and follows the saved review and approval rules. For development tasks, completion goes through a PR; merging remains your action.
 
-## Set aside unused templates
+</details>
+
+## Requirements
+
+| Requirement | What you need |
+|---|---|
+| Operating system | Windows or macOS. The helper scripts run on PowerShell 7 on both. Linux is not tested. |
+| AI entry point | Claude Code or Codex CLI for development. General work can also start in Codex or Claude desktop. A CLI is an AI tool you run in a terminal. |
+| Folder access | Give the AI access to the entire local template folder, including permission to write project records. Pasting START.md into a chat alone does not provide that access. |
+| PowerShell | PowerShell **7 or later**, available as pwsh, to run the helper scripts. Windows PowerShell 5.1, launched as powershell.exe, is not sufficient. |
+| Accounts and models | Sign in to each cloud AI service you select and confirm access to the chosen model. The template does not include accounts, subscriptions, or model access. |
+| Network | Internet access for cloud AI calls, sign-in, and any required downloads. Ollama calls need access to the configured Ollama service. |
+
+**You do not need to install every AI tool.** Start with your chosen AI. During setup, it checks the tools needed for your selected roles and explains what is missing.
+
+<details>
+<summary>Additional requirements by tool</summary>
+
+| Needed only when selected | Additional requirements |
+|---|---|
+| Codex automation | Codex CLI installed and accessible from the local command environment. Cloud models require sign-in; local models require an Ollama connection. |
+| Claude automation | Claude Code installed and signed in; an available native subagent tool or the supplied CLI adapter handles delegated Claude roles. |
+| Gemini automation | A compatible Antigravity agy CLI, signed in with access to the chosen model. The adapter does not target other Gemini CLIs. |
+| Ollama | A running Ollama service and the selected model already downloaded. |
+| Development or Git-based records | Git and repository access. Development also requires a way to create PRs, such as authenticated GitHub CLI for GitHub. |
+| Building software or games | The project's compiler, SDK, engine, dependencies, and test tools, identified during setup. No game engine is bundled. |
+| Office deliverables | Tools capable of creating and checking the chosen Word, PowerPoint, Excel, or PDF files. Setup identifies the available tools; a specific office suite is not required by the template. |
+
+</details>
+
+For installation and connection details, see the selected template's tool guide: [software](development/guides/TOOLS.md), [games](game-development/guides/TOOLS.md), or [general work](general-work/guides/TOOLS.md). If PowerShell is missing, use Microsoft's installation guide for [Windows](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-windows) or [macOS](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-macos). On macOS with Homebrew: `brew install powershell/tap/powershell`.
+
+## Use a local LLM
+
+**You can also use an Ollama-based local LLM.** A user reported successful operation on macOS with Codex CLI and `gemma4-31b-64k:latest`.
+
+Start the Ollama service and prepare your model, then run the following from the template folder. The model name below is the local tag used in that test; use the name installed in your Ollama environment.
+
+~~~bash
+codex --oss -m gemma4-31b-64k:latest -p local-ollama
+~~~
+
+`-p local-ollama` selects a previously configured Codex profile. If you do not have that profile, specify Ollama directly:
+
+~~~bash
+codex --oss --local-provider ollama -m gemma4-31b-64k:latest
+~~~
+
+Then say **"Run START.md."** in the AI conversation. See the [official Codex CLI reference](https://learn.chatgpt.com/docs/developer-commands?surface=cli) for these options.
+
+Using a local model through Codex CLI is separate from the template's direct Ollama adapter. The direct adapter generates responses from supplied text and does not provide file editing or command execution tools. Check each worker/reviewer model and connection during setup.
+
+## Project setup
+
+### New project
+
+Start with an idea. You do not need an empty project folder or Git repository beforehand.
+
+> Run START.md. I have no existing project and want to build a personal task management app.
+
+The AI confirms the matching template and its location, then saves your settings. Actual application or game-engine files are created in the first development task after setup.
+
+If settings for another project already exist, say **"Set up a new project instead of resuming the existing one."** Existing records are preserved.
+
+### Existing project
+
+During setup, give the AI your existing project folder and confirm the working location. Start later sessions from the selected template's START.md so the workflow instructions and saved records are loaded.
+
+## Resume your work
+
+Open the same folder and ask:
+
+> Read START.md and resume my project using its saved language, settings, and latest handoff.
+
+If several projects exist, name the one you want. The AI reuses recorded answers instead of starting the interview again. Older projects without a language field need one language question; their other settings and records are preserved.
+
+Reusable prompts, guides, and blank forms remain in English. Generated document headings and prose use the selected language. Quotations, code identifiers, file paths, configuration keys, and machine-readable status tokens remain unchanged.
+
+## Records and folders
+
+Inside the selected template folder:
+
+| Location | Contents |
+|---|---|
+| `workspace/` | Records for single-project mode. |
+| `projects/<project-id>/` | A separate record folder for each project in multi-project mode. |
+| `project.json` | Language, AI assignments, and portable skill/MCP requirements. |
+| `project.local.json` | PC paths, connection details and verification evidence; excluded from Git. Credentials stay in the client's credential store. |
+| `PROJECT.md`, `DECISIONS.md`, `BACKLOG.md` | Goals, your decisions, and progress. |
+| `handoffs/` and `reviews/` | What each agent did, checked, and passed to the next agent. |
+| `work/` and `outputs/` | Default working folder and final deliverables. Existing project folders can be used instead. |
+
+The files and subfolders in the last five rows are inside the relevant project's record folder, not necessarily the repository root.
+
+<details>
+<summary>Set aside unused templates</summary>
 
 After setup, if you used the template in place, the AI offers to set the other two template folders aside so later sessions only see the one you chose. You can also ask for this at any time.
 
@@ -132,51 +202,16 @@ pwsh -NoProfile -File ./scripts/Set-ActiveTemplate.ps1 -Restore development
 
 Add `-WhatIf` to preview. The links to removed folders in this README stop working until they are restored. `_archive/` is excluded from Git.
 
-## Where your settings and work go
-
-Inside the selected template folder:
-
-| Location | Contents |
-|---|---|
-| `workspace/` | Records for single-project mode. |
-| `projects/<project-id>/` | A separate record folder for each project in multi-project mode. |
-| `project.json` | Language, AI assignments, and portable skill/MCP requirements. |
-| `project.local.json` | PC paths, connection details and verification evidence; excluded from Git. Credentials stay in the client's credential store. |
-| `PROJECT.md`, `DECISIONS.md`, `BACKLOG.md` | Goals, your decisions, and progress. |
-| `handoffs/` and `reviews/` | What each agent did, checked, and passed to the next agent. |
-| `work/` and `outputs/` | Default working folder and final deliverables. Existing project folders can be used instead. |
-
-The files and subfolders in the last five rows are inside the relevant project's record folder, not necessarily the repository root.
-
-## Continue later or switch AI
-
-Open the same folder and ask:
-
-> Read START.md and resume my project using its saved language, settings, and latest handoff.
-
-If several projects exist, name the one you want. The AI reuses recorded answers instead of starting the interview again. Older projects without a language field need one language question; their other settings and records are preserved.
-
-Reusable prompts, guides, and blank forms remain in English. Generated document headings and prose use the selected language. Quotations, code identifiers, file paths, configuration keys, and machine-readable status tokens remain unchanged.
-
-## Included
-
-- Initial interviews, interrupted setup recovery, and handoffs between AI sessions.
-- Shared project settings separated from machine-specific paths.
-- Task, decision, handoff, and review forms.
-- Adapters for Codex CLI, Claude Code role agents, Antigravity agy, and Ollama.
-- Call logs, failure states, timeouts, and duplicate-task locking.
-- Development completion through commit, push, and PR creation; merging remains with the user.
-- Office-file creation and verification guidance for Word, PowerPoint, Excel, and PDF.
-
-The coordinator follows WORKFLOW.md to conduct interviews, advance stages, and assess results. Scripts initialize records, validate configuration, and invoke assigned agents. START.md does not grant file or command access that an app lacks. If an app cannot execute local CLIs, the workflow preserves its records and hands off to a CLI environment.
-
-The development AGENTS.md and CLAUDE.md files remain byte-for-byte copies of the original AgentWS files. Additional rules live in separate documents.
+</details>
 
 ## Verification
 
 Live calls, authentication, model availability, and app connections must be checked during setup in the user's environment. Mock verification does not establish live service compatibility.
 
-The latest automated verification ran on **Windows with PowerShell 7.6.5** and passed **123 mock checks**, including skill/MCP readiness and per-consumer evidence checks. It did not invoke live models, install skills, connect live MCP services, or validate desktop app connections. macOS support has not yet been verified by running the tests on a Mac.
+The latest automated verification ran on **Windows with PowerShell 7.6.5** and passed **123 mock checks**, including skill/MCP readiness and per-consumer evidence checks. It did not invoke live models, install skills, connect live MCP services, or validate desktop app connections. Separately, a user reported successful macOS execution with Codex CLI and an Ollama local model, as described above. This does not establish that the full automated suite has passed on macOS.
+
+<details>
+<summary>Automated verification commands</summary>
 
 ~~~powershell
 pwsh -NoProfile -File ./tests/Verify-Templates.ps1
@@ -184,3 +219,5 @@ pwsh -NoProfile -File ./tests/Verify-Templates.ps1
 pwsh -NoProfile -File ./tests/Verify-Edges.ps1 -Fixture "printed fixture path"
 pwsh -NoProfile -File ./tests/Verify-Integrations.ps1 -Fixture "printed fixture path"
 ~~~
+
+</details>
