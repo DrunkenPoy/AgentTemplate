@@ -6,6 +6,12 @@ Reusable prompts, operating instructions, and blank forms remain in English. The
 
 Preserve quotations in their source language, code identifiers, filenames, JSON keys, and protocol tokens. A user's explicit task-specific language instruction takes precedence for that task; record it. Every delegated call, including native subagents, must receive the project language. A missing or blank language requires an interview, not an English or Korean default. On resume, reuse the saved choice; do not translate old records without a request.
 
+## Startup mode and specialist assignments
+
+Follow [START-MODES.md](guides/START-MODES.md) when selecting a startup mode, researching workflow responsibilities, or changing agent assignments. Standard start requires approval for additional roles. Quick start requires its prior risk notice and automatically applies justified additions in software development, game development, and general work. Preserve existing provider/model selections, access limits, and task approval checkpoints.
+
+Use each active role's recorded duty and execution route. Specialist workers receive separate scoped tasks with `Invoke-Agent.ps1 -AgentRole <id>`; additional reviewers join the normal indexed review sequence with their responsibilities included. For native calls, explicitly supply the same assignment record and context. Quick start reduces setup questions; it does not remove independent review, handoffs, connection checks, or task-specific acceptance criteria. Resolve deferred questions before affected work.
+
 ## Roles and sources of truth
 
 - Coordinator: interviews, planning, assignments, actual verification, adjudication, Git/completion, and records. Select Claude Code or Codex per project.

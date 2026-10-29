@@ -1,6 +1,8 @@
 # Initial interview checklist
 
-Ask one to three related questions at a time and wait for answers. Inspect facts that available tools can establish before asking the user. This is a sequence to follow, not a questionnaire to present all at once.
+Read [START-MODES.md](START-MODES.md) first. In Standard start, ask one to three related questions at a time and wait for answers. In Quick start, use its defaults and ask only unresolved essentials; preserve the risk notice and deferred questions. Inspect facts that available tools can establish before asking the user. This is a sequence to follow, not a questionnaire to present all at once.
+
+Still resolve required user choices, including language, base AI configuration, and approval scope. Quick start applies additional role assignments automatically after the risk notice and can propose provisional completion criteria for confirmation at the first affected task plan. Record observed facts separately from user decisions.
 
 ## First question: language
 
@@ -15,10 +17,12 @@ Save the answer as project.json's language, record it in DECISIONS.md, and conti
 | Topic | Questions | Record |
 |---|---|---|
 | Language (first) | Language for conversation and project documents | language; DECISIONS.md |
+| Startup mode | Standard start or Quick start; prior risk notice for Quick start | startup.mode/riskNotice; DECISIONS.md |
 | Workspace | One project or several; project name and purpose | Initialization arguments; name/purpose |
 | Goals | Audience/users, scope and exclusions, acceptance criteria | PROJECT.md; completionCriteria |
 | Environment | New/existing working folder, CLI/app, file and local command access (Windows or macOS) | project.local.json; setup-state.json |
 | Assigned AI | Claude Code/Codex coordinator; worker model; reviewer models, order, and count | coordinator; worker; reviewers |
+| Workflow roles | Search for needed responsibilities and record evidence; approve additional assignments in Standard start or apply them automatically in Quick start | startup.rolesReviewed/roleResearch/assignments; DECISIONS.md |
 | Ollama | Whether to use it; assigned responsibilities and selected model | ollamaRole; relevant provider/model |
 | Skills and MCP | Required capabilities, existing connections, essential/optional additions, consumers, access and installation scope; follow [INTEGRATIONS.md](INTEGRATIONS.md) | integrations; local evidence in project.local.json |
 | User checkpoints | When to obtain confirmation and what can proceed automatically | approvals.checkpoints/scope/confirmed |
@@ -46,6 +50,6 @@ Example configuration excerpt; replace values with actual answers, never apply t
 }
 ~~~
 
-Set approvals.confirmed only after the user decides checkpoints and scope. A request to create a deliverable does not itself authorize external distribution. Development uses git-pr and a base branch confirmed from the actual repository. General work selects git-pr, git, or files during the interview.
+Set approvals.confirmed only after the user decides checkpoints and scope. A request to create a deliverable does not itself authorize external distribution. Development uses git-pr and a base branch confirmed from the actual repository. General work selects git-pr, git, or files during Standard start; new Quick start projects default to files unless the user chose Git.
 
 After setup, agree **small/large task size with the user for every task plan**. Do not replace this with a one-time project-size decision. Revisit saved setup answers only when a change or unresolved conflict warrants it.

@@ -4,6 +4,9 @@ Fill this form in the selected project language, including headings. Preserve pa
 
 - Project / author / timestamp:
 - Selected language:
+- Startup mode / prior risk notice and mode decision record:
+- Applied defaults / provisional criteria / deferred questions and when to resolve them:
+- Workflow-role search evidence / active assignments / explicit approval or Quick start authorization:
 - Initial AI and CLI/app:
 - Records folder / actual work folder:
 - State: interviewing / waiting for tools / ready

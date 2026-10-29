@@ -2,7 +2,7 @@
 
 Open this template folder where your AI can read it, then ask:
 
-> Read START.md and guide me through initial setup. Ask questions one topic at a time, and resume existing settings when available.
+> Run START.md.
 
 The AI reading this document must **perform the setup**, not merely summarize it. Read [WORKFLOW.md](WORKFLOW.md), the [interview guide](guides/INTERVIEW.md), and the [specialization guide](guides/SPECIALIZATION.md). Follow applicable tool, user, and project instructions.
 
@@ -18,6 +18,8 @@ Conduct the remaining interview and write user-facing reports, project records, 
 
 For an existing project, read project.json and reuse its language. If the field is missing or blank, ask this question before the rest of the interview and add the answer without resetting other settings. Change an existing language only at the user's request; do not automatically translate historical records.
 
+Read [startup modes](guides/START-MODES.md) and offer Standard start or Quick start with or immediately after the language question. Display the risk notice before Quick start is selected/applied. Reuse the mode and notice from the distribution entry point; do not ask twice. Both modes research needed workflow roles; Standard start approves additions, while Quick start automatically assigns justified additions in all three templates. Reuse saved settings on resume.
+
 ## 2. Locate the workspace and check capabilities
 
 1. Read template.json beside this file to identify the template kind.
@@ -30,7 +32,7 @@ If files are inaccessible, explain how to connect the folder. In an attachment-o
 
 ## 3. Initialize the workspace
 
-After selecting the language, ask whether this folder will serve one project or several, and ask for the project name and purpose.
+After selecting the language, resume existing records without reinitializing them. For a new project in Standard start, ask whether this folder will serve one project or several, and ask for the project name and purpose. In Quick start, apply START-MODES.md defaults and ask only unresolved essentials.
 
 Propose a short English ID based on the project name. Run the appropriate command from this template folder, substituting the language the user actually selected:
 
@@ -42,21 +44,21 @@ pwsh -NoProfile -File ./scripts/Initialize-Project.ps1 -Id example -Mode single 
 pwsh -NoProfile -File ./scripts/Initialize-Project.ps1 -Id example -Mode multi -Name "Project name" -Language "Selected language"
 ~~~
 
-Run only the chosen mode. The command preserves existing settings on resume, including their language. A direct command without -Language creates an incomplete configuration; ask the language question before proceeding.
+Run only the chosen workspace mode. Add -StartMode quick when Quick start was selected; otherwise use standard (the default). Save the displayed notice in project.json startup.riskNotice after initialization and before any agent call. The initializer does not display the notice or authorize assignments. The command preserves existing settings on resume, including their language. A direct command without -Language creates an incomplete configuration; ask the language question before proceeding.
 
 The default work/ folder holds new code or deliverables. For an existing repository or working folder, record its location in project.local.json's workDirectory instead of moving or copying it.
 
 ## 4. Interview and save each answer
 
-Follow the [interview guide](guides/INTERVIEW.md) in order. Ask only one to three related questions at a time, wait for answers, and do not repeat resolved questions.
+Follow the [interview guide](guides/INTERVIEW.md) using the selected startup mode. Standard start covers topics in order; Quick start applies the defaults and essential/deferred topic rules in START-MODES.md. Ask only one to three related questions at a time, wait for answers, and do not repeat resolved questions.
 
 - Immediately record each answer in DECISIONS.md and its project.json field. Save the language decision too.
 - Update setup-state.json's completedTopics, pendingQuestions, and nextAction.
 - Localize headings and prose in newly filled project records to the selected language. Leave distributed English templates unchanged.
-- Do not invent approvals, models, or answers for unresolved fields.
+- Do not invent approvals, models, or answers for unresolved fields. Label Quick start defaults and provisional criteria as such; deferred questions remain pending rather than answered.
 - If records cannot be saved, provide copyable decisions and a handoff and mark file persistence incomplete.
 
-Set setupInterviewComplete to true only after the initial interview is complete. This does not establish that tools are connected.
+Research workflow roles and record evidence and assignments as specified in START-MODES.md before agent configuration is complete. Set setupInterviewComplete to true only after the selected mode's essential setup topics are resolved. This does not establish that tools are connected.
 
 ## 5. Discover and configure skills and MCP
 
@@ -79,14 +81,14 @@ pwsh -NoProfile -File ./scripts/Invoke-Agent.ps1 -Project ./workspace -TaskId se
 pwsh -NoProfile -File ./scripts/Invoke-Agent.ps1 -Project ./workspace -TaskId setup-review -Role reviewer -Reviewer 1 -Phase probe
 ~~~
 
-Check every reviewer by index. If a call fails or a usage limit is reached, explain the issue in the selected language and ask whether to wait/retry or change the assignment. Do not switch models automatically.
+Check every reviewer by index, including newly assigned specialists. Their recorded responsibilities are automatically included for indexed reviewer calls; use -AgentRole <id> to select a specialist explicitly. If a call fails or a usage limit is reached, explain the issue in the selected language and ask whether to wait/retry or change the assignment. Do not switch models automatically.
 
 When Claude Code coordinates a Claude role, prefer its available native subagent tool. Pass the selected model, project language, and equivalent probe instructions, then record the result. If that tool is unavailable, check the CLI route without bypassing nested-session restrictions.
 
 ## 7. Save the setup handoff and plan the first task
 
 1. Copy forms/SETUP-HANDOFF.md to the project's handoffs/00-setup.md and fill it with observed results in the selected language.
-2. Complete PROJECT.md with the language, purpose, acceptance criteria, scope, and verification methods.
+2. Complete PROJECT.md with the language, purpose, acceptance criteria, scope, and verification methods. Include applied defaults, provisional criteria, deferred task questions, role research, and the basis for each assignment in the setup handoff.
 3. Set setup-state.json's stage to ready only after file persistence, the assigned agent calls, and every required skill/MCP integration for each assigned consumer have been checked. Otherwise use waiting-user or waiting-tools and record the reason and resumption steps.
 4. Present the first requested task's plan and agree its small/large classification with the user. Follow the project's approval checkpoints.
 5. Follow [WORKFLOW.md](WORKFLOW.md) for implementation, review, and revision. Setup alone does not authorize starting an unrequested task.
